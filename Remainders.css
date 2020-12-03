@@ -1,0 +1,139 @@
+.container {
+    background-color: #d1d6dc;
+    width: 70%;
+    margin: 0% 15%;
+}
+
+body {
+    background-color: #998877;
+    margin: 0;
+    border: none;
+    padding: 0;
+    user-select: none;
+}
+
+
+.headandadd {
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #778899;
+}
+
+#heading-todo {
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.input-remainder {
+    border-radius: 10px 0px 0px 10px;
+    margin-left: 5%;
+    width: 70%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 20px;
+    padding-left: 10px;
+}
+
+.addbutton {
+    font-size: 12px;
+    border-radius: 0px 10px 10px 0px;
+    height: 20px;
+    margin-right: 5%;
+    width: 20%;
+    padding: 0;
+    border: none;
+    margin: 0;
+    background-color: #bdbab5;
+}
+
+.addbutton:hover {
+    cursor: pointer;
+    background-color: #dbd8d3;
+}
+
+.addbutton:focus {
+    outline: none;
+}
+
+.input-remainder:focus {
+    outline: none;
+}
+
+.type-andd-add-remainder {
+    height: 40px;
+}
+
+.collection {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-flow: column;
+    user-select: auto;
+}
+
+.list-content {
+    font-size: 14px;
+    width: 68%;
+    height: 17px;
+    padding-left: 2%;
+    padding-top: 5px;
+    background-color: #b8b8b8;
+    margin: 5px 15%;
+    transition-duration: 200ms;
+}
+.list-content:hover {
+    transform: scale(0.99)
+}
+.fa-remove {
+    float: right;
+    margin-right: 10px;
+    transition-duration: 250ms;
+}
+.fa-remove:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+.tasks-all {
+    margin-left: 10px;
+}
+
+#task-form {
+    padding-bottom: 10px;
+}
+
+.clear-tasks {
+    font-weight: 600;
+    text-shadow: 1px 1px 1.5px black;
+    width: 150px;
+    background-color: #c78849;
+    color: #4988c7;
+    margin: 10px;
+    height: 25px;
+    outline: none;
+    border: none;
+    transition-duration: 100ms;
+}
+
+.clear-tasks:hover {
+    cursor: pointer;
+    text-shadow: 1px 1px 3px black;
+
+}
+
+.clear-tasks:focus {
+    outline: none;
+}
+
+.errorBlk {
+    height: 20px;
+    background-color: #cc3300;
+    margin-top: 10px;
+    margin-right: 60px;
+    margin-left: 60px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    color: #cccccc;
+
+}
