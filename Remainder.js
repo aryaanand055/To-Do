@@ -1,121 +1,287 @@
-const form = document.querySelector('#task-form');
-const taskList = document.querySelector('.collection');
-const clearBtn = document.querySelector('.clear-tasks');
-const taskInput = document.querySelector('#task');
-const deleteItm = document.querySelector(".fa fa-remove");
-const eroorBlck = document.querySelector(".errorBlk");
-
+const body = document.getElementById("body");
+const ulListTDo = document.getElementById("todo");
+const ulListDone = document.getElementById("done");
+const form = document.getElementById("taskForm");
+const formInput = document.getElementById("task");
+const clearAll = document.getElementById("clear-tasks");
+const filter = document.getElementById("filter");
+const lists = document.getElementById("lists");
+const button1 = document.getElementById("butt1")
+const button2 = document.getElementById("butt2")
 
 loadEventListeners();
 
+
 function loadEventListeners() {
-    document.addEventListener("DOMContentLoaded", restoreTask)
-    form.addEventListener('submit', addTask);
-    document.body.addEventListener("click", deleteItem);
+    button1.addEventListener("click", clearTasksTodo)
+    button2.addEventListener("click", clearTasksDone)
+    form.addEventListener("submit", addTask);
+    ulListTDo.addEventListener("click", removeTaskTodo);
+    ulListDone.addEventListener("click", removeTaskDone);
+    document.addEventListener("DOMContentLoaded", restoreFromLS);
+    filter.addEventListener("keyup", filterTasks);
+    document.addEventListener("mousemove", changeBackground);
+    lists.addEventListener("click", changeList);
+    clearAll.addEventListener("mouseenter", displayElement);
+    button1.addEventListener("mouseleave", displayElement2);
+    button2.addEventListener("mouseleave", displayElement2);
 }
 
-function restoreTask() {
-    let tasks;
-    if (localStorage.getItem("tasks") === null) {
-        tasks = [];
+function restoreFromLS() {
+    let ls;
+    if (localStorage.getItem("tasksToDo") === null) {
+        ls = [];
     } else {
-        tasks = JSON.parse(localStorage.getItem("tasks"));
+        ls = JSON.parse(localStorage.getItem("tasksToDo"));
     }
-    tasks.forEach(func);
+    ls.forEach(function (task) {
+        const createdLi = document.createElement("li");
+        createdLi.className = "list-content";
 
-    function func(task) {
-        const li = document.createElement('li');
-        li.className = 'list-content';
-        li.appendChild(document.createTextNode(task));
-        const link = document.createElement('a');
-        link.className = 'fa fa-remove';
-        li.appendChild(link);
-        taskList.appendChild(li);
+        const text = document.createTextNode(task);
+        createdLi.appendChild(text);
+        const deleteIcon = document.createElement("i");
+        deleteIcon.classList = "fa fa-remove";
+        createdLi.appendChild(deleteIcon);
+        const checkBox = document.createElement("input");
+        checkBox.type = "checkBox";
+        checkBox.classList = "checkBoxes";
+        createdLi.appendChild(checkBox);
+        ulListTDo.appendChild(createdLi);
+    })
 
+    let lsd;
+    if (localStorage.getItem("tasksDone") === null) {
+        lsd = [];
+    } else {
+        lsd = JSON.parse(localStorage.getItem("tasksDone"));
     }
+    lsd.forEach(function (task) {
+        const createdLi = document.createElement("li");
+        createdLi.className = "list-content";
+
+        const text = document.createTextNode(task);
+        createdLi.appendChild(text);
+        const deleteIcon = document.createElement("i");
+        deleteIcon.classList = "fa fa-remove";
+        createdLi.appendChild(deleteIcon);
+        const checkBox = document.createElement("input");
+        checkBox.type = "checkBox";
+        checkBox.classList = "checkBoxes";
+        checkBox.checked = true;
+        createdLi.appendChild(checkBox);
+        createdLi.style.textDecoration = "line-through";
+        createdLi.style.color = "rgb(0, 0, 1, 0.6)";
+        ulListDone.appendChild(createdLi);
+    })
+
+
 }
 
 function addTask(e) {
-    if (taskInput.value === '') {
-        //        alert('Error Please add a task');
-        disBlkCde("check your input");
+    if (formInput.value === "") {
+        alert("The input is blank");
         e.preventDefault();
     } else {
-        const li = document.createElement('li');
-        li.className = 'list-content';
-        li.appendChild(document.createTextNode(taskInput.value));
-        const link = document.createElement('a');
-        link.className = 'fa fa-remove';
-        li.appendChild(link);
-        taskList.appendChild(li);
+        const createdLi = document.createElement("li");
+        createdLi.className = "list-content";
 
-        storeTaskInLs(taskInput.value);
+        const text = document.createTextNode(formInput.value);
+        createdLi.appendChild(text);
+        const deleteIcon = document.createElement("i");
+        deleteIcon.classList = "fa fa-remove";
+        createdLi.appendChild(deleteIcon);
+        const checkBox = document.createElement("input");
+        checkBox.type = "checkBox";
+        checkBox.classList = "checkBoxes";
+        createdLi.appendChild(checkBox);
+        ulListTDo.appendChild(createdLi);
 
-        taskInput.value = "";
+
+        storeToLS(formInput.value, "todo");
+        formInput.value = "";
+
         e.preventDefault();
-
     }
 }
 
-function disBlkCde(error) {
-    const errorBlock = document.createElement("div");
-    const inputAbv = document.querySelector(".heading-todo");
-    const inputIn = document.querySelector(".headandadd");
-
-    errorBlock.className = "errorBlk";
-    errorBlock.appendChild(document.createTextNode(error));
-     const link = document.createElement('a');
-        link.className = 'fa fa-remove';
-        errorBlock.appendChild(link);
-    inputIn.prepend(errorBlock);
-    setTimeout(clearThisError, 3000);
-}
-
-function clearThisError() {
-    document.querySelector(".errorBlk").remove();
-}
-
-function storeTaskInLs(input) {
-    let tasks;
-    if (localStorage.getItem("tasks") === null) {
-        tasks = [];
-    } else {
-        tasks = JSON.parse(localStorage.getItem("tasks"));
-    }
-
-    tasks.push(input);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-
-function deleteItem(e) {
+function removeTaskTodo(e) {
     if (e.target.classList.contains("fa-remove")) {
-        if (confirm("Are you sure")) {
-            e.target.parentElement.remove();
-            console.log("Deleted");
-            deleteFromLS(e.target.parentElement);
+        e.target.parentElement.remove();
+
+        deleteFromLS(e.target.parentElement, "todo")
+    }
+}
+
+function removeTaskDone(e) {
+    if (e.target.classList.contains("fa-remove")) {
+        e.target.parentElement.remove();
+
+        deleteFromLS(e.target.parentElement, "done")
+    }
+}
+
+function storeToLS(taskToStore, place) {
+    if (place === "todo") {
+        let ls;
+        if (localStorage.getItem("tasksToDo") === null) {
+            ls = [];
+        } else {
+            ls = JSON.parse(localStorage.getItem("tasksToDo"));
         }
-    } else if (e.target.classList.contains("clear-tasks")) {
-        if (confirm("Are you sure you want to clear all the tasks")) {
-            taskList.innerHTML = "";
-            localStorage.clear();
-            console.log("Cleared all");
+        ls.push(taskToStore);
+        localStorage.setItem("tasksToDo", JSON.stringify(ls))
+    } else if (place === "done") {
+        let ls;
+        if (localStorage.getItem("tasksDone") === null) {
+            ls = [];
+        } else {
+            ls = JSON.parse(localStorage.getItem("tasksDone"));
+        }
+        ls.push(taskToStore);
+        localStorage.setItem("tasksDone", JSON.stringify(ls))
+    }
+}
+
+function deleteFromLS(itemToDel, place) {
+    if (place === "todo") {
+        let ls;
+        if (localStorage.getItem("tasksToDo") === null) {
+            ls = [];
+        } else {
+            ls = JSON.parse(localStorage.getItem("tasksToDo"));
+        }
+
+        let indexOfItem = ls.indexOf(itemToDel.textContent);
+        ls.splice(indexOfItem, 1);
+
+
+
+
+        localStorage.setItem("tasksToDo", JSON.stringify(ls));
+    } else if (place === "done") {
+
+        let ls;
+        if (localStorage.getItem("tasksDone") === null) {
+            ls = [];
+        } else {
+            ls = JSON.parse(localStorage.getItem("tasksDone"));
+        }
+
+        let indexOfItem = ls.indexOf(itemToDel.textContent);
+        ls.splice(indexOfItem, 1);
+
+
+
+        localStorage.setItem("tasksDone", JSON.stringify(ls));
+    }
+}
+
+function clearTasksTodo() {
+    if (confirm("Are you sure you want to delete all todo tasks?")) {
+        const findList = ulListTDo.childNodes;
+        let arrr2 = [];
+        let ls;
+
+
+        findList.forEach(function (nodoNow) {
+            if (nodoNow.className === "list-content") {
+
+                arrr2.push(nodoNow)
+            }
+        })
+
+        arrr2.forEach(function (e) {
+            e.remove()
+        })
+        ls = localStorage.getItem("tasksToDo");
+        ls = JSON.stringify([]);
+        localStorage.setItem("tasksToDo", ls);
+    }
+}
+
+function clearTasksDone() {
+    if (confirm("Are you sure you want to delete all completed tasks?")) {
+        const findList = ulListDone.childNodes;
+        let arrr2 = [];
+        let ls;
+
+
+        findList.forEach(function (nodoNow) {
+            if (nodoNow.className === "list-content") {
+
+                arrr2.push(nodoNow)
+            }
+        })
+
+        arrr2.forEach(function (e) {
+            e.remove()
+        })
+        ls = localStorage.getItem("tasksDone");
+        ls = JSON.stringify([]);
+        localStorage.setItem("tasksDone", ls);
+    }
+
+}
+
+function changeList(e) {
+    if (e.target.classList.contains("checkBoxes") && e.target.checked === true) {
+        console.log("Yes");
+        const moveTask = e.target.parentElement;
+        deleteFromLS(e.target.parentElement, "todo");
+
+        e.target.parentElement.remove();
+        moveTask.style.textDecoration = "line-through";
+        storeToLS(moveTask.textContent, "done")
+
+        ulListDone.appendChild(moveTask);
+    } else if (e.target.checked === false) {
+        const moveTask = e.target.parentElement;
+        deleteFromLS(e.target.parentElement, "done");
+        e.target.parentElement.remove()
+        moveTask.style.textDecoration = "none";
+        storeToLS(moveTask.textContent, "todo")
+        ulListTDo.appendChild(moveTask);
+    } else {
+
+
+    }
+}
+
+
+
+function filterTasks() {
+    const filterValue = filter.value.toLowerCase();
+    document.querySelectorAll(".list-content").forEach(filterTask);
+
+    function filterTask(task) {
+        const item = task.firstChild.textContent;
+        if (item.toLowerCase().indexOf(filterValue) != -1) {
+            task.style.display = "block";
+        } else {
+            task.style.display = "none";
         }
     }
 }
 
-function deleteFromLS(pa) {
-    let tasks;
-    if (localStorage.getItem("tasks") === null) {
-        tasks = [];
-    } else {
-        tasks = JSON.parse(localStorage.getItem("tasks"));
-    }
-    tasks.forEach(funct);
+function changeBackground(e) {
+    document.body.style.backgroundColor = `rgb(${e.offsetX}, ${e.offsetY}, 150 )`;
+    if (e.target.classList.contains("fa")) {
+        document.body.style.backgroundColor = `red`
+    } else if (e.target.classList.contains("filter")) {
+        document.body.style.backgroundColor = "#3bff3b"
 
-    function funct(taskItem, index) {
-        if (pa.textContent === taskItem) {
-            tasks.splice(index, 1);
-        }
     }
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function displayElement() {
+    clearAll.style.display = "none";
+    button1.style.display = "inline-block";
+    button2.style.display = "inline-block";
+}
+
+function displayElement2() {
+    button1.style.display = "none";
+    button2.style.display = "none";
+    clearAll.style.display = "inline-block";
 }
