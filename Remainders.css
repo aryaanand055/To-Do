@@ -1,11 +1,11 @@
 .container {
-    background-color: #d1d6dc;
+    background-color: #ffe500;
     width: 70%;
-    margin: 0% 15%;
+    margin: 0% 14.9%;
 }
 
 body {
-    background-color: #998877;
+    background-color: azure;
     margin: 0;
     border: none;
     padding: 0;
@@ -16,7 +16,7 @@ body {
 .headandadd {
     text-align: center;
     margin-bottom: 10px;
-    background-color: #778899;
+    background-color: darkturquoise;
 }
 
 #heading-todo {
@@ -74,66 +74,150 @@ body {
 
 .list-content {
     font-size: 14px;
-    width: 68%;
+    width: 73%;
     height: 17px;
-    padding-left: 2%;
-    padding-top: 5px;
+    padding: 6px 0px 6px 1%;
     background-color: #b8b8b8;
-    margin: 5px 15%;
-    transition-duration: 200ms;
+    margin: 5px 13%;
+    transition-duration: 300ms;
+    transition-delay: 100ms;
+    border-radius: 5px;
+
 }
+
 .list-content:hover {
-    transform: scale(0.99)
+    transform: rotateX(360deg);
+    background-color: RGB(205, 149, 117);
 }
+
 .fa-remove {
     float: right;
     margin-right: 10px;
-    transition-duration: 250ms;
+    visibility: hidden;
 }
+
+
+.list-content:hover .fa-remove {
+    visibility: visible;
+}
+
 .fa-remove:hover {
+    opacity: 0.9;
     cursor: pointer;
-    opacity: 0.5;
 }
+
 .tasks-all {
     margin-left: 10px;
 }
 
-#task-form {
+#taskForm {
     padding-bottom: 10px;
 }
 
-.clear-tasks {
+#clear-tasks {
     font-weight: 600;
-    text-shadow: 1px 1px 1.5px black;
     width: 150px;
-    background-color: #c78849;
-    color: #4988c7;
+    color: white;
+    background-color: #4988c7;
     margin: 10px;
     height: 25px;
     outline: none;
     border: none;
     transition-duration: 100ms;
+    border-radius: 10px 10px 10px 10px;
+
 }
 
-.clear-tasks:hover {
+#clear-tasks:hover {
     cursor: pointer;
     text-shadow: 1px 1px 3px black;
 
 }
 
-.clear-tasks:focus {
+#clear-tasks:focus {
     outline: none;
 }
 
 .errorBlk {
-    height: 20px;
     background-color: #cc3300;
-    margin-top: 10px;
-    margin-right: 60px;
-    margin-left: 60px;
-    padding-top: 5px;
-    padding-bottom: 5px;
     text-align: center;
     color: #cccccc;
+
+}
+
+.checkBox {
+    background-color: crimson;
+    color: rebeccapurple;
+    float: left;
+}
+
+#filter {
+    width: 70%;
+    border: none;
+    margin: 0 14%;
+    padding: 5px 1%;
+    border-radius: 1px;
+}
+
+#filter:focus {
+    outline: 1px solid green;
+
+}
+
+
+
+.hr {
+    width: 80%;
+    height: 2px;
+    background-color: #9aff00;
+    border: none;
+    margin: none;
+    border-radius: 50%;
+
+}
+
+.ulHeadings {
+    width: 76%;
+    margin: 0% 10%;
+    padding: 0% 2%;
+}
+
+.checkBoxes {
+    float: left;
+    margin-right: 13px;
+
+}
+
+.splitButtons {
+    display: none;
+    font-weight: 600;
+    width: 74px;
+    border-right: 1px solid black;
+    color: white;
+    background-color: #4988c7;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    height: 25px;
+    outline: none;
+    border: none;
+    transition-duration: 300ms;
+    transition-delay: 500ms;
+}
+
+.splitButtons:hover {
+    cursor: pointer;
+    transform: rotate(20deg);
+
+}
+
+#butt1 {
+    margin-left: 10px;
+    border-right: 1px dashed #c78b49;
+    /*    border-right-style: double;*/
+    border-radius: 10px 0px 0px 10px;
+}
+
+#butt2 {
+    border-radius: 0px 10px 10px 0px;
 
 }
